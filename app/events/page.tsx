@@ -2,12 +2,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import dbConnect from "@/lib/dbConnect";
 import { formatDateTime } from "@/lib/utils";
+import ClubModel from "@/models/club.model";
 import EventModel from "@/models/event.model";
 import { Calendar, MapPin, Users } from "lucide-react";
 import Link from "next/link";
 
 export default async function EventsPage() {
   await dbConnect();
+  
+  // Ensure Club model is registered
+  ClubModel;
+  
   const now = new Date();
   const events = await EventModel.find({ status: "approved", date: { $gte: now } })
     .populate("club", "name")

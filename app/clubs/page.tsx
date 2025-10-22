@@ -2,11 +2,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import dbConnect from "@/lib/dbConnect";
 import ClubModel from "@/models/club.model";
+import UserModel from "@/models/user.model";
 import { Users } from "lucide-react";
 import Link from "next/link";
 
 export default async function ClubsPage() {
   await dbConnect();
+  
+  // Ensure User model is registered
+  UserModel;
+  
   const clubs = await ClubModel.find()
     .populate("coordinator", "name email")
     .select("name description logoUrl coordinator members")
