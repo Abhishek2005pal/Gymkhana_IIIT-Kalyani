@@ -39,8 +39,7 @@ const ClubSchema = new Schema<IClub>(
   { timestamps: true }
 );
 
-// Create index for name
-ClubSchema.index({ name: 1 });
+// Note: Index is already created by unique: true on name field, so no need for ClubSchema.index({ name: 1 })
 
 const ClubModel = mongoose.models.Club || mongoose.model<IClub>('Club', ClubSchema);
 export default ClubModel;
