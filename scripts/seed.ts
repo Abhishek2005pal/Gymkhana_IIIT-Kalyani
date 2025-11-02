@@ -26,6 +26,13 @@ const seedDatabase = async () => {
 
     console.log('\nSeeding users...');
     // Use .create() instead of .insertMany() to trigger password hashing
+    const admin = await UserModel.create({
+      name: 'Admin',
+      email: 'admin@iiitkalyani.ac.in',
+      password: 'admin@123',
+      role: 'admin',
+    });
+
     const alice = await UserModel.create({
       name: 'Alice',
       email: 'alice@example.com',
@@ -39,52 +46,71 @@ const seedDatabase = async () => {
       password: 'password123',
       role: 'student',
     });
+
+    const charlie = await UserModel.create({
+      name: 'Charlie',
+      email: 'charlie@example.com',
+      password: 'password123',
+      role: 'student',
+      studentId: 'STU001',
+    });
+
+    const diana = await UserModel.create({
+      name: 'Diana',
+      email: 'diana@example.com',
+      password: 'password123',
+      role: 'student',
+      studentId: 'STU002',
+    });
     
     console.log('✅ Users seeded successfully!');
+    console.log('   - Admin:', admin._id, '(admin@iiitkalyani.ac.in / admin@123)');
     console.log('   - Alice (coordinator):', alice._id);
     console.log('   - Bob (student):', bob._id);
+    console.log('   - Charlie (student):', charlie._id);
+    console.log('   - Diana (student):', diana._id);
 
     console.log('\nSeeding clubs...');
     const debatingSociety = await ClubModel.create({
       name: 'Debating Society',
       description: 'A club for passionate debaters and public speakers.',
       coordinator: alice._id,
-      members: [alice._id],
+      members: [alice._id, bob._id, charlie._id],
     });
 
     const musicClub = await ClubModel.create({
       name: 'Music Club',
       description: 'For all music lovers, from classical to rock.',
       coordinator: alice._id,
-      members: [alice._id],
+      members: [alice._id, diana._id],
     });
 
     const dramaClub = await ClubModel.create({
       name: 'Drama Club',
       description: 'Bringing stories to life on stage.',
       coordinator: alice._id,
-      members: [alice._id],
+      members: [alice._id, bob._id],
     });
 
     const photographyClub = await ClubModel.create({
       name: 'Photography Club',
       description: 'Capture moments and create art.',
       coordinator: alice._id,
-      members: [alice._id],
+      members: [alice._id, charlie._id, diana._id],
     });
 
     const outdoorGamesClub = await ClubModel.create({
       name: 'Outdoor Games Club',
       description: 'For sports enthusiasts who love outdoor activities like cricket, football, volleyball, badminton, and more. Stay fit, have fun, and build team spirit!',
       coordinator: alice._id,
-      members: [alice._id],
+      members: [alice._id, bob._id, charlie._id, diana._id],
     });
 
     const indoorGamesClub = await ClubModel.create({
       name: 'Indoor Games Club',
       description: 'Enjoy chess, table tennis, carrom, board games, and other indoor sports. Perfect for strategic thinkers and game lovers!',
       coordinator: alice._id,
-      members: [alice._id],
+      members: [alice._id, bob._id],
     });
 
     console.log('✅ Clubs seeded successfully!');
@@ -104,7 +130,7 @@ const seedDatabase = async () => {
       club: debatingSociety._id,
       location: 'Main Auditorium',
       status: 'approved',
-      registeredUsers: [],
+      registeredUsers: [bob._id, charlie._id],
       registrationLimit: 50,
     });
 
@@ -115,7 +141,7 @@ const seedDatabase = async () => {
       club: musicClub._id,
       location: 'Amphitheatre',
       status: 'approved',
-      registeredUsers: [],
+      registeredUsers: [diana._id],
       registrationLimit: 100,
     });
 
@@ -126,7 +152,7 @@ const seedDatabase = async () => {
       club: dramaClub._id,
       location: 'Drama Hall',
       status: 'approved',
-      registeredUsers: [],
+      registeredUsers: [bob._id, charlie._id, diana._id],
       registrationLimit: 75,
     });
 
@@ -137,7 +163,7 @@ const seedDatabase = async () => {
       club: photographyClub._id,
       location: 'Art Gallery',
       status: 'approved',
-      registeredUsers: [],
+      registeredUsers: [charlie._id, diana._id],
     });
 
     const event5 = await EventModel.create({
